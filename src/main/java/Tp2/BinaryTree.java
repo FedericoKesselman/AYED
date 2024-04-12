@@ -1,6 +1,6 @@
-import java.util.*;
-
 package Tp2;
+
+import java.util.*;
 
 public class BinaryTree<T> {
 	private T data;
