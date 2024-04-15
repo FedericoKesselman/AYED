@@ -23,6 +23,10 @@ public class BinaryTree<T> {
 		return data;
 	}
 	
+	public void setData(T data) {
+		this.data = data;
+	}
+	
 	public BinaryTree<T> getLeftChild() {
 		return this.leftChild;
 	}
@@ -82,7 +86,7 @@ public class BinaryTree<T> {
 				if (this.hasRightChild())
 					rightC = this.rightChild.contarHojas();
 			}
-		
+
 		return leftC + rightC;
 	}
 	
@@ -131,6 +135,12 @@ public class BinaryTree<T> {
 				break;
 		}
 	}
+
+	 public void imprimirArbol() {
+        if(this.hasLeftChild()) this.getLeftChild().imprimirArbol();
+        System.out.print(this.getData() + " ");
+        if(this.hasRightChild()) this.getRightChild().imprimirArbol();
+    }
 
 
 }
