@@ -1,5 +1,5 @@
 package Tp2;
-//
+
 public class Ejercicio7 {
     private BinaryTree<Integer> arbol;
     
