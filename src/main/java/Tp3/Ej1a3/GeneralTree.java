@@ -1,4 +1,4 @@
-package Tp3.Ej1;
+package Tp3.Ej1a3;
 
 import java.util.*;
 import Tp1.ejercicio8.Queue;
@@ -50,15 +50,14 @@ public class GeneralTree<T> {
     // Ejercicio 2
         // PreOrden
     public List<Integer> numerosImparesMayoresQuePreOrden (Integer n) {
-        if (!a.isEmpty) {
-            List<Integer> l = new LinkedList<Integer>();
+    	List<Integer> l = new LinkedList<Integer>();
+        if (!this.isEmpty()) 
             this.numImpPreOrden (n, l);
-            return l;
-        }
+        return l;
     }
 
     public void numImpPreOrden (Integer n, List<Integer> l) {
-        int data = this.getData()
+        int data = (Integer) this.getData();
         if (data%2 != 0 && data > n)  
             l.add(data);
 
@@ -69,20 +68,19 @@ public class GeneralTree<T> {
 
         // InOrden
     public List<Integer> numerosImparesMayoresQueInOrden (Integer n) {
-        if (!a.isEmpty) {
-            List<Integer> l = new LinkedList<Integer>();
+    	List<Integer> l = new LinkedList<Integer>();
+        if (!this.isEmpty()) 
             this.numImpInOrden (n, l);
-            return l;
-        }
+        return l;
     }
 
     public void numImpInOrden (Integer n, List<Integer> l) {
         List<GeneralTree<T>> children = this.getChildren(); 
 
         if (this.hasChildren()) 
-            children.get(0).numImpInOrden(n, l) // va hasta el hijo de mas a la izq
+            children.get(0).numImpInOrden(n, l); // va hasta el hijo de mas a la izq
 
-        int data = this.getData()
+        int data = (Integer) this.getData();
         if (data%2 != 0 && data > n)  
             l.add(data);
         
@@ -92,11 +90,10 @@ public class GeneralTree<T> {
 
         //PostOrden
     public List<Integer> numerosImparesMayoresQuePostOrden (Integer n) {
-        if (!a.isEmpty) {
-            List<Integer> l = new LinkedList<Integer>();
+    	List<Integer> l = new LinkedList<Integer>();
+        if (!this.isEmpty()) 
             this.numImpPostOrden (n, l);
-            return l;
-        }
+        return l;
     }
 
     public void numImpPostOrden (Integer n, List<Integer> l) {
@@ -105,7 +102,7 @@ public class GeneralTree<T> {
         for (GeneralTree<T> child: children) 
             child.numImpPostOrden(n, l);
 
-        int data = this.getData()
+        int data = (Integer) this.getData();
         if (data%2 != 0 && data > n)  
             l.add(data);
     }
@@ -113,7 +110,7 @@ public class GeneralTree<T> {
         //Niveles
     public List<Integer> numerosImparesMayoresQuePorNiveles (Integer n) {
         int data;
-        List<T> result = new LinkedList<T>();
+        List<Integer> result = new LinkedList<Integer>();
         GeneralTree<T> tree_aux;
 
         Queue<GeneralTree<T>> queue = new Queue<GeneralTree<T>>();
@@ -123,13 +120,13 @@ public class GeneralTree<T> {
             tree_aux = queue.dequeue();
 
             if (!tree_aux.isEmpty()) { // chequea que tenga dato 
-                data = tree_aux.getData();
+                data = (Integer) tree_aux.getData();
                 if (data%2 != 0 && data > n) result.add(data);
             }
 
             List<GeneralTree<T>> children = tree_aux.getChildren();
             for (GeneralTree<T> child: children) 
-                queue.enqueue(chil);
+                queue.enqueue(child);
         }
         
         return result;
