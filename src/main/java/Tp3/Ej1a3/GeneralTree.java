@@ -132,8 +132,95 @@ public class GeneralTree<T> {
         return result;
     }
 
+    //Ejercicio3
+    public int altura() {
+        if (this.isEmpty()) 
+            return -1;
+        else
+            return alt();
+    }
+
+    public int alt () {
+        if (!this.hasChildren()) 
+            return 0;
+        else {
+            int maximo = -1;
+            int cant;
+
+            List<GeneralTree<T>> children = this.getChildren(); 
+            for (GeneralTree<T> child: children) {
+                cant = 0;
+                cant += child.alt();
+                if (cant > maximo)
+                    maximo = cant;
+            }
+
+            return maximo + 1;
+        }
+    }
+
+    public int nivel (T dato) {
+        if (!this.isEmpty()) 
+            return niv(dato);
+        else
+            return -1;
+    }
+
+    public int niv(T dato) {
+        if (this.getData() == dato)
+            return (this.alt()); // si el dato es la raiz
+        else {
+            List<GeneralTree<T>> children = this.getChildren(); 
+
+            for (GeneralTree<T> child: children) {
+                if (child.getData() == dato) 
+                    return (child.alt());
+
+                child.niv(dato);
+            }
+            return -1;
+        }
+    }
 
 
+    public int ancho(){ 
+        if(this.isEmpty()) 
+            return 0;
+        else 
+            return anchoHelper();
+    }
+    
+    private int anchoHelper() {
+        int cant = 0;
+        int max = -1;
+
+        GeneralTree<T> tree_aux;
+        Queue<GeneralTree<T>> queue = new Queue<GeneralTree<T>>();
+
+        queue.enqueue(this);
+        queue.enqueue(null);
+
+        while (!queue.isEmpty()) {
+            tree_aux = queue.dequeue();
+
+            if (tree_aux!= null) { // 
+                List<GeneralTree<T>> children = tree_aux.getChildren();
+
+                for (GeneralTree<T> child: children) {
+                    queue.enqueue(child);
+                    cant++;
+                }
+                queue.enqueue(null);
+            }
+            else {
+                if (cant > max) 
+                    max = cant;
+                cant = 0;
+            }
+        }
+        
+        return max;
+    }
 
 
 }
