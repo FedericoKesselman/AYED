@@ -1,4 +1,4 @@
-package Tp3.Ej1a3;
+package Tp3.Ej1235;
 
 import java.util.*;
 import Tp1.ejercicio8.Queue;
@@ -222,5 +222,43 @@ public class GeneralTree<T> {
         return max;
     }
 
+    //Ejercicio5
+    public boolean esAncestro(T a, T b) {
+        if (!this.isEmpty()) {
+            GeneralTree<T> nodo = buscar(a, b, this);
 
+            if (nodo != null) { // si esta antes B, o no encuentra A es null
+                GeneralTree<T> aux = buscar(b, b, nodo);
+                if ( (aux != null) && (aux.getData().equals(b)) )
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private GeneralTree<T> buscar(T a, T b, GeneralTree<T> nodo) {
+        GeneralTree<T> tree_aux;
+        Queue<GeneralTree<T>> queue = new Queue<GeneralTree<T>>();
+        
+        queue.enqueue(nodo);
+
+        while (!queue.isEmpty()) {
+            tree_aux = queue.dequeue();
+            
+            if (tree_aux.getData().equals(a))  
+                return tree_aux;
+            else if (tree_aux.getData().equals(b)) // encuentra antes a B, retorna null
+                return null;
+
+            List<GeneralTree<T>> children = tree_aux.getChildren();
+            for (GeneralTree<T> child: children) 
+                queue.enqueue(child);
+        }
+        return null;
+    }
+
+    
+    
+    
+    
 }
