@@ -1,6 +1,6 @@
 package Tp3.Ej4;
 
-import Tp3.Ej1a3.GeneralTree;
+import Tp3.Ej1235.GeneralTree;
 import Tp1.ejercicio8.Queue;
 import java.util.*;
 
@@ -36,10 +36,10 @@ public class AnalizadorArbol {
 
                 total += tree_aux.getData().getTardanza();
                 cant++;
-                queue.enqueue(null);
             }
             else { 
             	if (!queue.isEmpty()) {
+                    queue.enqueue(null);
             		promedio = (total/cant);
             		if (promedio > max) 
             			max = promedio;

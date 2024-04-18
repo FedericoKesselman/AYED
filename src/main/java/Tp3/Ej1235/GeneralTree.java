@@ -256,6 +256,8 @@ public class GeneralTree<T> {
         }
         return null;
     }
+    // El unico problema es que si A y B tiene el mismo valor va a dar siempre true
+
 
     public static void main(String[] args) {
         List<GeneralTree<Integer>> children1 = new LinkedList<GeneralTree<Integer>>();
