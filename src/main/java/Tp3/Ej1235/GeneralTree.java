@@ -56,7 +56,7 @@ public class GeneralTree<T> {
         return l;
     }
 
-    public void numImpPreOrden (Integer n, List<Integer> l) {
+    private void numImpPreOrden (Integer n, List<Integer> l) {
         int data = (Integer) this.getData();
         if (data%2 != 0 && data > n)  
             l.add(data);
@@ -74,7 +74,7 @@ public class GeneralTree<T> {
         return l;
     }
 
-    public void numImpInOrden (Integer n, List<Integer> l) {
+    private void numImpInOrden (Integer n, List<Integer> l) {
         List<GeneralTree<T>> children = this.getChildren(); 
 
         if (this.hasChildren()) 
@@ -96,7 +96,7 @@ public class GeneralTree<T> {
         return l;
     }
 
-    public void numImpPostOrden (Integer n, List<Integer> l) {
+    private void numImpPostOrden (Integer n, List<Integer> l) {
         List<GeneralTree<T>> children = this.getChildren(); 
         
         for (GeneralTree<T> child: children) 
@@ -140,7 +140,7 @@ public class GeneralTree<T> {
             return alt();
     }
 
-    public int alt () {
+    private int alt () {
         if (!this.hasChildren()) 
             return 0;
         else {
@@ -166,7 +166,7 @@ public class GeneralTree<T> {
             return -1;
     }
 
-    public int niv(T dato) {
+    private int niv(T dato) {
         if (this.getData() == dato)
             return (this.alt()); // si el dato es la raiz
         else {

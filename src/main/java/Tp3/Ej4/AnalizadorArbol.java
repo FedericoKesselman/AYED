@@ -13,7 +13,7 @@ public class AnalizadorArbol {
             return 0;
     }
 
-	public double devolverMaxPro (GeneralTree<AreaEmpresa> arbol) {
+	private double devolverMaxPro (GeneralTree<AreaEmpresa> arbol) {
         int cant = 0;
         double total = 0;
         double max = -1;

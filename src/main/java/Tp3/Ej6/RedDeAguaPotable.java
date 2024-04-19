@@ -1,7 +1,6 @@
 package Tp3.Ej6;
 
 import Tp3.Ej1235.GeneralTree;
-import Tp1.ejercicio8.Queue;
 import java.util.*;
 
 public class RedDeAguaPotable {
@@ -14,15 +13,14 @@ public class RedDeAguaPotable {
     //
 	public double minimoCaudal (double caudal) {
         if (!arbol.isEmpty()) {
-            double min = 99999;
-            min = calcularCaudal(caudal, arbol);
+            double min = calcularCaudal(caudal, arbol);
             return min;
         }
         else
             return 0;
     }
-
-    public double calcularCaudal (double caudal, GeneralTree<Character> nodo) {
+1
+    private double calcularCaudal (double caudal, GeneralTree<Character> nodo) {
     	
     	if (!nodo.hasChildren()) {
             return caudal;
