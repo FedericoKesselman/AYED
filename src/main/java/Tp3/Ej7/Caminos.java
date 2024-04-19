@@ -25,7 +25,7 @@ public class Caminos {
         if (arbol.hasChildren()) {
             for(GeneralTree<Integer> child: arbol.getChildren()) {
                 camino(child, caminoAct, caminoMax);
-                caminoAct.remove(caminoAct.size()-1); // una vez que ya controlo el camino, los va borrando
+                caminoAct.remove(caminoAct.size()-1); // va eliminado el ultimo de camino actual, xq ya se controlo ese camino
             }
         } 
         else if(caminoAct.size() > caminoMax.size()) {

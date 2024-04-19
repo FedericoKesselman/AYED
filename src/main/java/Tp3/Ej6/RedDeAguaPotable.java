@@ -19,7 +19,7 @@ public class RedDeAguaPotable {
         else
             return 0;
     }
-1
+
     private double calcularCaudal (double caudal, GeneralTree<Character> nodo) {
     	
     	if (!nodo.hasChildren()) {
