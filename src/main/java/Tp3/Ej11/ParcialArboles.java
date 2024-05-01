@@ -7,12 +7,12 @@ import Tp1.ejercicio8.Queue;
 public class ParcialArboles { 
     public static boolean resolver(GeneralTree<Integer> arbol) {
         if (!arbol.isEmpty())
-            return Resolv(arbol);
+            return resolverHelper(arbol);
         else
             return false;
     }
   
-    public static boolean Resolv(GeneralTree<Integer> arbol) {
+    public static boolean resolverHelper(GeneralTree<Integer> arbol) {
         int nivel = 2; // arranca procesando en el nivel 2
 
         GeneralTree<Integer> tree_aux;
@@ -30,11 +30,11 @@ public class ParcialArboles {
             }
             else { 
             	if (!queue.isEmpty()) {
-            		if (nivel != queue.size())
-                        return false;
+            		if (nivel != queue.size()) // en la cola unicamente van a quedar los nodos del nivel
+                        return false;  // corta todo el metodo directamente
 
-                    nivel++;
-                    queue.enqueue(null);
+                    nivel++; // aumenta nivel 
+                    queue.enqueue(null); // se va a procesar nivel nuevo
             } }
         }
         
