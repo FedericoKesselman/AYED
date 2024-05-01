@@ -35,6 +35,7 @@ public class ParcialArboles {
                 cant += num;
 
             if(cant > max) {
+                max = cant;
                 caminoMax.removeAll(caminoMax);
                 caminoMax.addAll(caminoAct);
             }
