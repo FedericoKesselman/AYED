@@ -6,12 +6,12 @@ import java.util.*;
 public class ParcialArboles {
     public static boolean esDeSeleccion (GeneralTree<Integer> arbol) {
         if (!arbol.isEmpty())
-            return esDeS(arbol);
+            return esDeSeleccionHelper(arbol);
         else
             return false;
     }
     
-    private static boolean esDeS (GeneralTree<Integer> arbol) {
+    private static boolean esDeSeleccionHelper (GeneralTree<Integer> arbol) {
         if (!arbol.hasChildren())
             return true;
 
@@ -19,9 +19,9 @@ public class ParcialArboles {
 
         for (GeneralTree<Integer> child: arbol.getChildren()) {
             if (child.getData() < min) 
-                min = child.getData();
+                min = child.getData(); // calcula minimo de los hijos
             if (!esDeS(child)) 
-                return false;
+                return false; // si alguno de los sub-arboles no cumple corta
         }
 
         if (arbol.getData() == min) 

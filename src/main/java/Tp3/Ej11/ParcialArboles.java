@@ -12,7 +12,7 @@ public class ParcialArboles {
             return false;
     }
   
-    public static boolean resolverHelper(GeneralTree<Integer> arbol) {
+    private static boolean resolverHelper(GeneralTree<Integer> arbol) {
         int nivel = 2; // arranca procesando en el nivel 2
 
         GeneralTree<Integer> tree_aux;
