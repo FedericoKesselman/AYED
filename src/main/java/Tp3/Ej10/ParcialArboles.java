@@ -1,4 +1,4 @@
-package Tp3.Ej11;
+package Tp3.Ej10;
 
 import Tp3.Ej1235.GeneralTree;
 import java.util.*;
