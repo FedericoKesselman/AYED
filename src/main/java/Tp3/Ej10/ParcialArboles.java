@@ -23,7 +23,7 @@ public class ParcialArboles {
         // procesamiento
         if (!arbol.hasChildren()) {
             if (sumaAct > sumaMax) {
-                sumaMax = sumaAct;
+                sumaMax = sumaAct; // actualiza maximo
                 caminoMax.removeAll(caminoMax);
                 caminoMax.addAll(caminoAct);
             }
@@ -36,9 +36,10 @@ public class ParcialArboles {
         
         caminoAct.remove(caminoAct.size()-1); // el mismo hijo se elimina antes de volver
         sumaAct -= arbol.getData() * nivel; // resta valor hijo
-        return sumaMax; // obligatoriamente hay que devolverlo para que el nodo padre reciba el nuevo valor maximo
+        return sumaMax; // obligatoriamente hay que devolverlo para que el nodo padre reciba el nuevo valor maximo si se actualiza
     }
 }
+
 
 
 
