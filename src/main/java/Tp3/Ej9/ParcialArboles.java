@@ -14,20 +14,21 @@ public class ParcialArboles {
     private static boolean esDeSeleccionHelper (GeneralTree<Integer> arbol) {
         if (!arbol.hasChildren())
             return true;
+        else {
+            int min = 9999;
 
-        int min = 9999;
+            for (GeneralTree<Integer> child: arbol.getChildren()) {
+                if (child.getData() < min) 
+                    min = child.getData(); // calcula minimo de los hijos
+                if (!esDeSeleccionHelper(child)) 
+                    return false; // si alguno de los sub-arboles no cumple corta
+            }
 
-        for (GeneralTree<Integer> child: arbol.getChildren()) {
-            if (child.getData() < min) 
-                min = child.getData(); // calcula minimo de los hijos
-            if (!esDeS(child)) 
-                return false; // si alguno de los sub-arboles no cumple corta
+            if (arbol.getData() == min) 
+                return true;
+            else
+                return false;
         }
-
-        if (arbol.getData() == min) 
-            return true;
-        else
-            return false;
     }
     
     public static void main(String[] args) {

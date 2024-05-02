@@ -7,41 +7,38 @@ public class ParcialArboles {
     public static List<Integer> resolver(GeneralTree<Integer> arbol) {
         List<Integer> caminoMax = new ArrayList<>();
         List<Integer> caminoActual = new ArrayList<>();
-        List<Integer> caminoAux = new ArrayList<>();
 
         if (!arbol.isEmpty()) {
-            resolverHelper(arbol, caminoActual, caminoMax, caminoAux, 1, -1);
+            int max = resolverHelper(arbol, caminoActual, caminoMax, 0, 1);
         }
         return caminoMax;
     }
 
-    private void resolverHelper(GeneralTree<Integer> arbol, List<Integer> caminoAct, List<Integer> caminoMax, List<Integer> caminoAux, int nivel, int max) {
+    private static int resolverHelper(GeneralTree<Integer> arbol, List<Integer> caminoAct, List<Integer> caminoMax, int nivel, int sumaAct, int saumaMax) {
         if (arbol.getData() != 0)
-            caminoAct.add(arbol.getData()); // lista que va guardando el camino de 1/0
+            caminoAct.add(arbol.getData()); // el mismo hijo se agrega a la lista actual
 
-        caminoAux.add(arbol.getData() * nivel); // lista que va guardando los valores
+        sumaAct += arbol.getData() * nivel; // variable que va guardando los valores
 
-        if (arbol.hasChildren()) {
-            for(GeneralTree<Integer> child: arbol.getChildren()) {
-                camino(child, caminoAct, caminoMax, caminoAux, nivel+1, max);
-                caminoAct.remove(caminoAct.size()-1); // va eliminado el ultimo de camino actual, xq ya se controlo ese camino
-                caminoAux.remove(caminoAux.size()-1); // " " de la lista aux
-            }
-        } 
-        else {
-            int cant = 0;
-
-            for (int num: caminoAux)
-                cant += num;
-
-            if(cant > max) {
-                max = cant;
+        // procesamiento
+        if (!arbol.hasChildren()) {
+            if (sumaAct > sumaMax) {
+                sumaMax = sumaAct;
                 caminoMax.removeAll(caminoMax);
                 caminoMax.addAll(caminoAct);
             }
         }
+        else {
+            for(GeneralTree<Integer> child: arbol.getChildren()) 
+                sumaMax = resolverHelper(child, caminoAct, caminoMax, nivel+1, sumaAct);
+        }
+        // fin procesamiento 
+        
+        caminoAct.remove(caminoAct.size()-1); // el mismo hijo se elimina antes de volver
+        sumaAct -= arbol.getData() * nivel; // resta valor hijo
+        return sumaMax; // obligatoriamente hay que devolverlo para que el nodo padre reciba el nuevo valor maximo
     }
-
 }
+
 
 
