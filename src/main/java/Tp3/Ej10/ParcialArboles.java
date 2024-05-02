@@ -6,15 +6,15 @@ import java.util.*;
 public class ParcialArboles { 
     public static List<Integer> resolver(GeneralTree<Integer> arbol) {
         List<Integer> caminoMax = new ArrayList<>();
-        List<Integer> caminoActual = new ArrayList<>();
+        List<Integer> caminoAct = new ArrayList<>();
 
         if (!arbol.isEmpty()) {
-            int max = resolverHelper(arbol, caminoActual, caminoMax, 0, 1);
+            resolverHelper(arbol, caminoAct, caminoMax, 0, 0, 0);
         }
         return caminoMax;
     }
 
-    private static int resolverHelper(GeneralTree<Integer> arbol, List<Integer> caminoAct, List<Integer> caminoMax, int nivel, int sumaAct, int saumaMax) {
+    private static int resolverHelper(GeneralTree<Integer> arbol, List<Integer> caminoAct, List<Integer> caminoMax, int nivel, int sumaAct, int sumaMax) {
         if (arbol.getData() != 0)
             caminoAct.add(arbol.getData()); // el mismo hijo se agrega a la lista actual
 
@@ -30,7 +30,7 @@ public class ParcialArboles {
         }
         else {
             for(GeneralTree<Integer> child: arbol.getChildren()) 
-                sumaMax = resolverHelper(child, caminoAct, caminoMax, nivel+1, sumaAct);
+                sumaMax = resolverHelper(child, caminoAct, caminoMax, nivel+1, sumaAct, sumaMax);
         }
         // fin procesamiento 
         
