@@ -117,13 +117,36 @@ public class MatrixGraph<T> {
 
     public int weight(Vertex<T> origin, Vertex<T> destination) {
     	int weight = 0;
-    	if (this.belongs(origin) && this.belongs(destination)) {
-    		weight = adjMatrix[((AdjMatrixVertex<T>) origin).getPosition()]
-    				[((AdjMatrixVertex<T>) destination).getPosition()];
-    	}
+
+    	if (this.belongs(origin) && this.belongs(destination)) 
+    		weight = adjMatrix[((AdjMatrixVertex<T>) origin).getPosition()] [((AdjMatrixVertex<T>) destination).getPosition()];
+
    		return weight;
     }
 
 
+    public List<Edge<T>> getEdges(Vertex<T> v) {
+        List<Edge<T>> ady = new ArrayList<Edge<T>>();
+        int veticePos = v.getPosition();
+
+        for (int i = 0; i < vertices.size(); i++) {
+            if (adjMatrix[veticePos][i] != EMPTY_VALUE) 
+                ady.add(new Edge<T>(vertices.get(i), adjMatrix[veticePos][i]));
+            
+        }
+        return ady;
+    }
+
+
+    public Vertex<T> getVertex(int position) {
+    	if (position < 0 || position >= this.vertices.size()) {
+    		return null;
+    	}
+        return vertices.get(position);
+    }
     
+
+    public int getSize() {
+    	return this.vertices.size();
+    }
 }

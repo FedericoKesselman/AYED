@@ -17,7 +17,7 @@ public class Vertex<T> {
         return this.data;
     }
 
-    public void setPosition (int position) {
+    void setPosition (int position) {
         this.position = position;
     }
 
@@ -25,7 +25,7 @@ public class Vertex<T> {
         return this.position;
     }
 
-    public void decrementPosition () {
+    void decrementPosition () {
         this.position--;
     }
 }
