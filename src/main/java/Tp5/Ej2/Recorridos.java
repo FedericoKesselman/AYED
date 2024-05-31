@@ -1,6 +1,8 @@
 package Tp5.Ej2;
+import Tp5.Ej1.List.Graph;
+import java.util.*;
 
-public class Recorridos {
+public class Recorridos<T> {
     
     public List<T> dfs(Graph<T> grafo) {
         List<T> lista = new ArrayList<>();
@@ -10,6 +12,8 @@ public class Recorridos {
             if (!visitados[vertex.getPosition()])
                 dfs (grafo, vertex, visitados, lista);
         }
+
+        return lista;
     }
 
     public void dfs (Graph<T> grafo, Vertex<T> vertex, boolean[] visitados, List<T> lista) { 
@@ -33,6 +37,8 @@ public class Recorridos {
             if (!visitados[vertex.getPosition()])
                 bfs (grafo, vertex, visitados, lista);
         }
+
+        return lista;
     }
 
     private void bfs(Graph<T> grafo, Vertex<T> vertex, boolean[] visitados, List<T> data) {
