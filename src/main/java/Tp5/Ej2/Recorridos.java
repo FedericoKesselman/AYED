@@ -16,7 +16,7 @@ public class Recorridos {
         visitados[vertex.getPosition()] = true;
         lista.add(vertex.getData());
 
-        for (Edge<T> edge: vertex.getEdges()) {
+        for (Edge<T> edge: vertex.getEdges()) { 
 
             if (!visitados[edge.getTarget().getPosition()])
                 dfs (grafo, vertex, visitados, lista);
@@ -24,7 +24,38 @@ public class Recorridos {
     }
 
 
-    
+    // TODAVIA FALTA VERLO EN LA CLASE PRACTICA
+    public List<T> bfs(Grafo<T> grafo) {
+        boolean[] visitados = new boolean(grafo.getSize());
+ 
+        // en un for por si el grafo no es conexo. se dispara el recorrido desde los vertices no alcanzados
+        for (Vertex<T> vertex: grafo.getVertices()) {
+            if (!visitados[vertex.getPosition()])
+                bfs (grafo, vertex, visitados, lista);
+        }
+    }
 
+    private void bfs(Graph<T> grafo, Vertex<T> vertex, boolean[] visitados, List<T> data) {
+        visitados[vertex.getPosition()] = true;
+        lista.add(vertex.getData());
 
+        Queue<Vertex<T>> q = new Queue<Vertex<T>>();
+        q.enqueue(vertex);
+
+        while (!q.isEmpty()) {
+            Vertex<T> w = q.dequeue();
+            lista.add(vertex.getData());
+
+            // para todos los vecinos de w:
+            for (Edge<T> edge: grafo.getEdges(w)) {
+                int pos = edge.getTarget().getPosition();
+
+                if (!visitados[pos]) {
+                    visitados[pos] = true;
+                    //Vertex<T> v = e.getTarget();
+                    q.enqueue(e.getTarget());
+                }
+            }
+        }
+    }
 } 
