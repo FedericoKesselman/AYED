@@ -1,4 +1,5 @@
 package Tp5.Ej1.List;
+import java.util.*;
 
 public class Graph<T> {
     private List<Vertex<T>> vertices;
@@ -8,8 +9,8 @@ public class Graph<T> {
     }
 
     public Vertex<T> createVertex(T data) {
-        int newPos = this.vertex.size();
-        Vertex<T> vertice = new Vertice (data, newPos);
+        int newPos = this.vertices.size();
+        Vertex<T> vertice = new Vertex(data, newPos);
         this.vertices.add (vertice);
 
         return vertice;

@@ -1,11 +1,12 @@
 package Tp5.Ej1.List;
+import java.util.*;
 
 public class Vertex<T> {
     private T data;
     private int position;
     private List<Edge<T>> edges;
 
-    Vertex (int data, int position) {
+    Vertex (T data, int position) {
         this.data = data;
         this.position = position;
         this.edges = new ArrayList<>();
@@ -32,10 +33,10 @@ public class Vertex<T> {
     }
 
     void connect (Vertex<T> destination) {
-        this.connect (destination, 1);
+        this.connect(destination, 1);
     }
 
-    void connext (Vertex<T> destination, int weight) {
+    void connect (Vertex<T> destination, int weight) {
         Edge<T> edge = this.getEdge(destination);
 
         if (edge == null) 
