@@ -16,13 +16,13 @@ public class Mapa {
 
         for (Vertex<T> vertex: mapaCiudades.getVertices()) {
             if (vertex.getData() == ciudad1)
-                boolean OK = dfs (grafo, vertex, visitados, lista);
+                boolean OK = devolverCaminoHelper (grafo, vertex, visitados, lista);
         }
 
         return lista;
     }
 
-    public boolean dfs (Graph<String> mapaCiudades, Vertex<T> vertex, boolean[] visitados, List<T> lista) { 
+    public boolean devolverCaminoHelper (Graph<String> mapaCiudades, Vertex<T> vertex, boolean[] visitados, List<T> lista) { 
         visitados[vertex.getPosition()] = true;
         boolean OK = false;
         lista.add(vertex.getData()); // Podria ir adentro del if pero asi queda la ciudad2 en la lista 
@@ -30,7 +30,7 @@ public class Mapa {
         if (vertex.getData() != ciudad2) {
             for (Edge<T> edge: vertex.getEdges()) { 
                 if (!visitados[edge.getTarget().getPosition()]) && (!OK)
-                    OK = dfs (mapaCiudades, vertex, visitados, lista);
+                    OK = devolverCaminoHelper (mapaCiudades, vertex, visitados, lista);
             }
 
             if (!OK) 
