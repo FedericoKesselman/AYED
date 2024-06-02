@@ -42,4 +42,53 @@ public class Mapa {
         return OK;
     }
 
+
+    // INCISO2
+    public List<String> devolverCaminoExeptuando(String ciudad1, String ciudad2, List<String> ciudades) {
+        List<String> lista = new ArrayList<>();
+        boolean[] visitados = new boolean(mapaCiudades.getSize());  
+
+        for (Vertex<T> vertex: mapaCiudades.getVertices()) {
+            if (vertex.getData() == ciudad1)
+                boolean OK = devolverCaminoExeptuandoHelper (grafo, vertex, visitados, lista, ciudades);
+        }
+
+        return lista;
+    }
+
+    public boolean devolverCaminoExpetuandoHelper (Graph<String> mapaCiudades, Vertex<T> vertex, boolean[] visitados, List<T> lista, List<String> ciudades) { 
+        visitados[vertex.getPosition()] = true;
+        boolean OK = false;
+        lista.add(vertex.getData()); // Podria ir adentro del if pero asi queda la ciudad2 en la lista 
+
+        int pos;
+        String destino;
+
+        if (vertex.getData() != ciudad2) {
+
+            for (Edge<T> edge: vertex.getEdges()) { 
+                pos = edge.getTarget().getPosition();
+                destino = edge.getTarget().getData();
+
+                for (String city: ciudades) 
+                    if (city == destino) 
+                        visitados[pos] = true;
+                // Se pone en true la ciudad para que no pueda entrar 
+                // Tambien se podria hacer en el otro metodo pero no es lo que mas conviene(explicado en clase)
+
+                if (!visitados[pos]) && (!OK) 
+                    OK = devolverCaminoExeptuandoHelper (mapaCiudades, vertex, visitados, lista);
+            }
+
+            if (!OK) 
+                lista.remove(lista.size()-1);
+        }
+        else
+            OK = true;
+
+        return OK;
+    }
+
+
+
 }
