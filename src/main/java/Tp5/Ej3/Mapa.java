@@ -168,8 +168,8 @@ public class Mapa {
         else {
 
             for (Edge<String> edge: vertex.getEdges()) { 
-                pos = edge.getTarget().getPosition();
-                combustibleNecesario = edge.getWeight();
+                int pos = edge.getTarget().getPosition();
+                int combustibleNecesario = edge.getWeight();
 
                 // chequeo por !OK para que si un camino ya lo encontro no siga recorriendo el resto de adyacentes del vertice
                 if (!visitados[pos]) && (!OK) && (tanqueAuto - combustibleNecesario > 0) 
@@ -216,8 +216,8 @@ public class Mapa {
 
         else {
             for (Edge<String> edge: vertex.getEdges()) { 
-                pos = edge.getTarget().getPosition();
-                combustibleNecesario = edge.getWeight();
+                int pos = edge.getTarget().getPosition();
+                int combustibleNecesario = edge.getWeight();
 
                 if (!visitados[pos]) {
                     // Si el combustible que se tiene en el auto alcanza (sin realizar una recarga en la ciudad) se visita la ciudad
@@ -234,6 +234,10 @@ public class Mapa {
         caminoAct.remove(camino.size()-1);
         visitados[vertex.getPosition()] = false;
         return recargasMin;
+    }
+
+    public static void main(String[] args) { 
+        // FALTA CHEQUEAR QUE FUNCIONEN LOS METODOS
     }
 
 }
