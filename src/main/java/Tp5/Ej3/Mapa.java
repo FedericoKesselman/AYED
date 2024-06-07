@@ -186,5 +186,54 @@ public class Mapa {
     }
 
 
+    /*-------------------------------------5-------------------------------------*/
+    public List<String> caminoConMenorCargaDeCombustible(String ciudad1, String ciudad2, int tanqueAuto) {
+        List<String> camino = new ArrayList<>();
+
+        if (!this.mapaCiudades.isEmpty()) {
+            boolean[] visitados = new boolean(mapaCiudades.getSize());  
+
+            Vertex origen = this.mapaCiudades.search(ciudad1);
+            Vertex destino = this.mapaCiudades.search(ciudad2);
+
+            if (origen != null && destino != null) 
+                caminoConMenorCargaDeCombustible (origen, visitados, ciudad2, new ArrayList<String>(), camino, tanqueAuto, tanqueAuto, 0, Integer.MAX_VALUE);
+        }
+
+        return camino;
+    }
+
+    // variable tanque almacena la cantidad total de combustible que puede tener el auto
+    public int caminoConMenorCargaDeCombustibleHelper (Vertex<String> vertex, boolean[] visitados, String ciudad2, List<String> caminoAct, List<String> caminoMin, int tanqueActual, int tanque, int recargas, int recargasMin) {
+        visitados[vertex.getPosition()] = true;
+        camino.add(vertex.getData());
+
+        if (vertex.getData().equals(ciudad2) && recargas < recargasMin) {
+            caminoMin.removeAll(caminoMin);
+            caminoMin.addAll(caminoAct);            
+            recargasMin = recargas;
+        }
+
+        else {
+            for (Edge<String> edge: vertex.getEdges()) { 
+                pos = edge.getTarget().getPosition();
+                combustibleNecesario = edge.getWeight();
+
+                if (!visitados[pos]) {
+                    // Si el combustible que se tiene en el auto alcanza (sin realizar una recarga en la ciudad) se visita la ciudad
+                    if (tanqueActual >= combustibleNecesario)
+                        recargasMin = caminoConMenorCargaDeCombustibleHelper(edge.getTarget(), visitados, ciudad2, caminoAct, caminoMin, (tanqueActual - combustibleNecesario), tanque, recargas, recargasMin);
+                    
+                    // Si el combustible que tiene el auto no alcanza, se chequea si con una recarga si. De ser posible se visita con recargas+1 
+                    else if (tanque >= combustibleNecesario)
+                        recargasMin = caminoConMenorCargaDeCombustibleHelper(edge.getTarget(), visitados, ciudad2, caminoAct, caminoMin, (tanque - combustibleNecesario), tanque, (recargas+1), recargasMin);
+                }
+            }
+        }
+        
+        caminoAct.remove(camino.size()-1);
+        visitados[vertex.getPosition()] = false;
+        return recargasMin;
+    }
 
 }
