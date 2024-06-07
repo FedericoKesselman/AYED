@@ -11,23 +11,23 @@ public class Mapa {
 
     // INCISO1
     public List<String> devolverCamino(String ciudad1, String ciudad2) {
+        List<String> lista = new ArrayList<>();
+
         if (!this.mapaCiudades.isEmpty()) {
-            List<String> lista = new ArrayList<>();
             boolean[] visitados = new boolean(mapaCiudades.getSize());    
 
             Vertex origen = this.mapaCiudades.search(ciudad1);
             Vertex destino = this.mapaCiudades.search(ciudad2);
 
             if (origen != null && destino != null) {
-                devolverCaminoHelper (grafo, origen visitados, lista, ciudad2);
+                devolverCaminoHelper (origen, visitados, lista, ciudad2);
                 return lista;
             }
         }
-
-        return new ArrayList<>();
+        return lista
     }
 
-    public boolean devolverCaminoHelper (Graph<String> mapaCiudades, Vertex<T> vertex, boolean[] visitados, List<T> lista, String ciudad2) { 
+    public boolean devolverCaminoHelper (Vertex<T> vertex, boolean[] visitados, List<T> lista, String ciudad2) { 
         visitados[vertex.getPosition()] = true;
         boolean OK = false;
         lista.add(vertex.getData()); // Podria ir adentro del if pero asi queda la ciudad2 en la lista 
@@ -35,7 +35,7 @@ public class Mapa {
         if (vertex.getData() != ciudad2) {
             for (Edge<T> edge: vertex.getEdges()) { 
                 if (!visitados[edge.getTarget().getPosition()]) && (!OK)
-                    OK = devolverCaminoHelper (mapaCiudades, vertex, visitados, lista);
+                    OK = devolverCaminoHelper (edge.getTarget(), visitados, lista, ciudad2);
             }
 
             if (!OK) 
@@ -50,22 +50,23 @@ public class Mapa {
 
     // INCISO2
     public List<String> devolverCaminoExeptuando(String ciudad1, String ciudad2, List<String> ciudades) {
+        List<String> lista = new ArrayList<>();
+
         if (!this.mapaCiudades.isEmpty()) {
-            List<String> lista = new ArrayList<>();
             boolean[] visitados = new boolean(mapaCiudades.getSize());  
 
             Vertex origen = this.mapaCiudades.search(ciudad1);
             Vertex destino = this.mapaCiudades.search(ciudad2);
 
             if (origen != null && destino != null) {
-                devolverCaminoExeptuandoHelper (grafo, vertex, visitados, lista, ciudades, ciudad2);
+                devolverCaminoExeptuandoHelper (origen, visitados, lista, ciudades, ciudad2);
                 return lista;
             }
-
-        return new ArrayList<>();
+        }
+        return lista
     }
 
-    public boolean devolverCaminoExpetuandoHelper (Graph<String> mapaCiudades, Vertex<T> vertex, boolean[] visitados, List<T> lista, List<String> ciudades) { 
+    public boolean devolverCaminoExpetuandoHelper (Vertex<T> vertex, boolean[] visitados, List<T> lista, List<String> ciudades, String ciudad2) { 
         visitados[vertex.getPosition()] = true;
         boolean OK = false;
         lista.add(vertex.getData()); // Podria ir adentro del if pero asi queda la ciudad2 en la lista 
@@ -85,7 +86,7 @@ public class Mapa {
                 // Tambien se podria hacer en el otro metodo pero no es lo que mas conviene(explicado en clase)
 
                 if (!visitados[pos]) && (!OK) 
-                    OK = devolverCaminoExeptuandoHelper (mapaCiudades, vertex, visitados, lista);
+                    OK = devolverCaminoExeptuandoHelper (edge.getTarget(), visitados, lista, ciudades, ciudad2);
             }
 
             if (!OK) 
@@ -96,6 +97,9 @@ public class Mapa {
 
         return OK;
     }
+
+
+    
 
 
 
