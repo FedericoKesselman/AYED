@@ -89,8 +89,10 @@ public class Mapa {
                     OK = devolverCaminoExeptuandoHelper (edge.getTarget(), visitados, lista, ciudades, ciudad2);
             }
 
-            if (!OK) 
+            if (!OK) {
                 lista.remove(lista.size()-1);
+                visitados[vertex.getPosition()] = false;
+            }
         }
         else
             OK = true;
@@ -99,7 +101,46 @@ public class Mapa {
     }
 
 
-    
+    // INCISO3
+    public List<String> caminoMasCorto(String ciudad1, String ciudad2) {
+        List<String> camino = new ArrayList<>();
+
+        if (!this.mapaCiudades.isEmpty()) {
+            boolean[] visitados = new boolean(mapaCiudades.getSize());  
+
+            Vertex origen = this.mapaCiudades.search(ciudad1);
+            Vertex destino = this.mapaCiudades.search(ciudad2);
+
+            if (origen != null && destino != null) {
+                caminoMasCortoHelper (origen, visitados, ciudad2, new ArrayList<String>(), camino, 0, Integer.MAX_VALUE);
+                return camino;
+            }
+        return camino;
+    }
+
+    public int caminoMasCortoHelper(Vertex<T> vertex, boolean[] visitados, String ciudad2, List<T> caminoAct, List<T> caminoMin, int total, int min) {
+        visitados[vertex.getPosition()] = true;
+        caminoAct.add(vertex.getData());
+
+        if (vertex.getData() = ciudad2 && total < min) { // se encontro un camino posible o un camino mas chico que el anterior
+            caminoMin.removeAll(caminoMin);
+            caminoMin.addAll(caminoAct);            
+            min = total
+        }
+        else {
+            for (Edge<T> edge: vertex.getEdges()) { 
+                int pos = edge.getTarget().getPosition();
+                int aux = total + edge.getWeight();
+
+                if (!visitados[pos] && aux < min) 
+                    min = caminoMasCortoHelper(edge.getTarget(), visitados, ciudad2, caminoAct, caminoMin, aux, min);
+
+            }
+        }
+        caminoAct.remove(caminoAct.size()-1);
+        visitados[vertex.getPosition()] = false;
+        return min;
+    }
 
 
 
