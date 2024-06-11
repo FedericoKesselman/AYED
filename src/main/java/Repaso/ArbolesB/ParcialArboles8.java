@@ -1,35 +1,45 @@
-package Tp2;
-import Tp2.Ej1y2.BinaryTree;
+package ArbolesB;
 
-public class ParcialArboles {
-	public boolean esPrefijo(BinaryTree<Integer> arbol1, BinaryTree<Integer> arbol2){
-        if(arbol1.isEmpty() || arbol2.isEmpty()) 
-            return arbol1.isEmpty() && arbol2.isEmpty(); //El primer if verifica si al menos uno de los arboles esta vacio, si es asi, pregunta si ambos arboles estan vacios, si es asi tienen la misma estructura, en caso contrario, no es prefijo
-        return esPrefijoHelper(arbol1, arbol2); //Si entre aca es porque los 2 arboles tienen al menos un dato y puedo hacer la comparacion correspondiente
-    }
-    
-    private boolean esPrefijoHelper(BinaryTree<Integer> arbol1, BinaryTree<Integer> arbol2) {
-        if(arbol1.getData() != arbol2.getData()) {
-            return false;
-        } 
-        boolean res = true;
-        if(arbol1.hasLeftChild()) {
-            if(arbol2.hasLeftChild()) {
-                res = res && esPrefijoHelper(arbol1.getLeftChild(), arbol2.getLeftChild()); //Verifico que tengan el mismo contenido
-            } else return false; //No poseen la misma estructura
-        }
-        if(arbol1.hasRightChild()) {
-            if(arbol2.hasRightChild()) {
-                res = res && esPrefijoHelper(arbol1.getRightChild(), arbol2.getRightChild()); //Verifico que tengan el mismo contenido 
-            } else return false; //No poseen la misma estructura
-        }
-        return res;
-    }
-    
-    
-    public static void main (String[] args) {
+public class ParcialArboles8 {
+	
+	public boolean esPrefijo (BinaryTree<Integer> arbol1, BinaryTree<Integer> arbol2) {
+		if(arbol1.isEmpty() || arbol2.isEmpty()) 
+            return (arbol1.isEmpty() && arbol2.isEmpty());
+		else
+			return esPrefijoHelper (arbol1, arbol2);
+	}
+	
+	private boolean esPrefijoHelper (BinaryTree<Integer> arbol1, BinaryTree<Integer> arbol2) {
+		if (arbol1.getData() == arbol2.getData()) {
+			
+			if ( (arbol1.hasLeftChild() && !arbol2.hasLeftChild()) || (arbol1.hasRightChild() && !arbol2.hasRightChild()) )
+				return false;
+			
+			else {
+				boolean izq = true;
+				boolean der = true;
+				
+				if (arbol1.hasLeftChild())
+					izq = esPrefijoHelper (arbol1.getLeftChild(), arbol2.getLeftChild());
+				
+				if (arbol1.hasRightChild())
+					der = esPrefijoHelper (arbol1.getRightChild(), arbol2.getRightChild());
+				
+				if (izq && der)
+					return true;
+				else
+					return false;
+			}
+		}
+		else
+			return false;
+	}
+		
+	
+	
+	public static void main (String[] args) {
         System.out.println("Test Ejercicio8");
-        ParcialArboles parcialArboles = new ParcialArboles();
+        ParcialArboles8 parcialArboles = new ParcialArboles8();
         
         BinaryTree<Integer> ab1 = new BinaryTree<Integer>(4);
         ab1.addLeftChild(new BinaryTree<Integer>(2));
@@ -70,7 +80,6 @@ public class ParcialArboles {
         System.out.println("Ab3 es prefijo de ab4? " + parcialArboles.esPrefijo(ab3, ab4));
         System.out.println("Ab5 es prefijo de ab6? " + parcialArboles.esPrefijo(ab5, ab6));
         System.out.println("Ab7 es prefijo de ab8? " + parcialArboles.esPrefijo(ab7, ab8));
-        System.out.println("Ab9 es prefijo de ab10? " + parcialArboles.esPrefijo(ab9, ab10));
-        
+        System.out.println("Ab9 es prefijo de ab10? " + parcialArboles.esPrefijo(ab9, ab10)); 
     }
 }

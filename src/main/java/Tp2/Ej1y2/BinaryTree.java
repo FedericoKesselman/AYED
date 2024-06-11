@@ -1,4 +1,4 @@
-package Tp2;
+package Tp2.Ej1y2;
 
 import java.util.*;
 
