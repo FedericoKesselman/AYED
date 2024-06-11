@@ -1,4 +1,4 @@
-package ArbolesG;
+package Repaso.ArbolesG;
 
 import java.util.*;
 import java.util.Queue;

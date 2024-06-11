@@ -1,4 +1,4 @@
-package ArbolesG;
+package Repaso.ArbolesG;
 
 public class AreaEmpresa {
 	private String identificacion;

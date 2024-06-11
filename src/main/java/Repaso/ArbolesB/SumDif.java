@@ -1,4 +1,4 @@
-package ArbolesB;
+package Repaso.ArbolesB;
 
 public class SumDif {
     private int sum;

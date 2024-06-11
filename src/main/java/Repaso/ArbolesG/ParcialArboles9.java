@@ -1,4 +1,4 @@
-package ArbolesG;
+package Repaso.ArbolesG;
 import java.util.*;
 
 public class ParcialArboles9 {

@@ -1,4 +1,4 @@
-package ArbolesB;
+package Repaso.ArbolesB;
 
 import java.util.*;
 

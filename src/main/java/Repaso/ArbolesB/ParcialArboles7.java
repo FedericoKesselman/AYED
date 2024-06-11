@@ -1,4 +1,4 @@
-package ArbolesB;
+package Repaso.ArbolesB;
 
 public class ParcialArboles7 {
 	private BinaryTree<Integer> arbol;
