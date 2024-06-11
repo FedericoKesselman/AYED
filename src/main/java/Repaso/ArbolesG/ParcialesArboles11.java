@@ -32,7 +32,7 @@ public class ParcialesArboles11 {
 			}
 		}
 		
-		return true;
+		return (cant == nivel+1); // Se pregunta por el ultimo caso. No se llega a evaluar en el while
 	}
 	
 	public static void main(String[] args) {
