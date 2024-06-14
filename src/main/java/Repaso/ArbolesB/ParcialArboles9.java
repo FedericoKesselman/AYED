@@ -2,58 +2,31 @@ package Repaso.ArbolesB;
 
 public class ParcialArboles9 {
 	
-	/*
-	public BinaryTree<SumDif> sumAndDif(BinaryTree<Integer> arbol) {
+	public BinaryTree<SumDif> sumAndDif (BinaryTree<Integer> arbol) {
+		BinaryTree<SumDif> ab = new BinaryTree<SumDif>();
+		
 		if (!arbol.isEmpty())
-			return sumAndDifHelper(arbol, arbol.getData());
-		else
-			return new BinaryTree<SumDif>(new SumDif (0,0));
-	}
-
-	private BinaryTree<SumDif> sumAndDifHelper(BinaryTree<Integer> nodo, int suma){
-		if (nodo.isLeaf()) 
-			return new BinaryTree<SumDif>(new SumDif(suma, nodo.getData()-suma));
-		else {
-			BinaryTree<SumDif> izq = null; 
-			BinaryTree<SumDif> der = null;
-			
-			if (nodo.hasLeftChild()) 
-				izq = sumAndDifHelper(nodo.getLeftChild(), nodo.getData()+suma);
-			
-			if (nodo.hasRightChild()) 
-				der = sumAndDifHelper(nodo.getRightChild(), nodo.getData()+suma);
-				
-			BinaryTree<SumDif> aux = new BinaryTree<SumDif>(new SumDif(suma, nodo.getData()-suma));
-			aux.addLeftChild(izq);
-			aux.addRightChild(der);
-			return aux;	
-	
-		}
-	}
-	No hace bien el calculo para el nodo raiz. */
-	
-	
-	public BinaryTree<SumDif> sumAndDif(BinaryTree<Integer> arbol) {
-        BinaryTree<SumDif> a = new BinaryTree<>();
-        sumAndDifHelper(arbol, a, 0, 0);
-        return a;
-    }
-	
-	private void sumAndDifHelper (BinaryTree<Integer> arbol, BinaryTree<SumDif> sad, int sum, int parent) {
-		SumDif aux = new SumDif (sum+arbol.getData(), arbol.getData()-parent);
-		sad.setData(aux);
+			sumAndDifHelper (arbol, ab, 0);
 		
-		if (arbol.hasLeftChild()) {
-			sad.addLeftChild(new BinaryTree<SumDif>());
-			sumAndDifHelper (arbol.getLeftChild(), sad.getLeftChild(), (sum+arbol.getData()), arbol.getData());
+		return ab;
+	}
+	
+	private void sumAndDifHelper (BinaryTree<Integer> nodo, BinaryTree<SumDif> ab, int sumPadre) {
+		SumDif elem = new SumDif (nodo.getData()+sumPadre, nodo.getData()-sumPadre);
+		ab.setData(elem);
+		
+		if (nodo.hasLeftChild()) {
+			BinaryTree<SumDif> aux = new BinaryTree<SumDif>();
+			ab.addLeftChild(aux);
+			sumAndDifHelper(nodo.getLeftChild(), aux, nodo.getData()+sumPadre);
 		}
 		
-		if (arbol.hasRightChild()) {
-			sad.addRightChild(new BinaryTree<SumDif>());
-			sumAndDifHelper (arbol.getRightChild(), sad.getRightChild(), (sum+arbol.getData()), arbol.getData());
+		if (nodo.hasRightChild()) {
+			BinaryTree<SumDif> aux = new BinaryTree<SumDif>();
+			ab.addRightChild(aux);
+			sumAndDifHelper(nodo.getRightChild(), aux, nodo.getData()+sumPadre);
 		}
 	}
-	
 	
 	public static void main(String[] args) {
         System.out.println("Test Ejercicio9");
