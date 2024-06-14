@@ -47,12 +47,12 @@ public class ParcialArboles9 {
         GeneralTree<Integer> subAb3 = new GeneralTree<Integer>(33, subChildren3);
         
         List <GeneralTree<Integer>> subChildren4 = new LinkedList <GeneralTree<Integer>>();
-        subChildren4.add(new GeneralTree<Integer>(14));
+        // subChildren4.add(new GeneralTree<Integer>(14));
         subChildren4.add(new GeneralTree<Integer>(12));
-        //subChildren4.add(new GeneralTree<Integer>(18));
+        subChildren4.add(new GeneralTree<Integer>(18));
         subChildren4.add(subAb3);
         GeneralTree<Integer> subAb4 = new GeneralTree<Integer>(12, subChildren4);
-        //GeneralTree<Integer> subAb4 = new GeneralTree<Integer>(18, subChildren4);
+        // GeneralTree<Integer> subAb4 = new GeneralTree<Integer>(18, subChildren4);
         
         List <GeneralTree<Integer>> subArbIzq = new LinkedList <GeneralTree<Integer>>();
         subArbIzq.add(subAb2);
