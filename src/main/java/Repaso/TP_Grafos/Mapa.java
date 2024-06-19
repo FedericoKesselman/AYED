@@ -8,233 +8,201 @@ public class Mapa {
         this.mapaCiudades = mapaCiudades;
     }
 
-    /*-------------------------------------1-------------------------------------*/
-    public List<String> devolverCamino(String ciudad1, String ciudad2) {
-        List<String> lista = new ArrayList<>();
-
-        if (!this.mapaCiudades.isEmpty()) {
-            boolean[] visitados = new boolean[mapaCiudades.getSize()];    
-
-            Vertex<String> origen = this.mapaCiudades.search(ciudad1);
-            Vertex<String> destino = this.mapaCiudades.search(ciudad2);
-
-            if (origen != null && destino != null) 
-                devolverCaminoHelper (origen, visitados, lista, ciudad2);
-        }
-
-        return lista;
-    }
-
-    private boolean devolverCaminoHelper (Vertex<String> vertex, boolean[] visitados, List<String> lista, String ciudad2) { 
-        visitados[vertex.getPosition()] = true;
-        boolean OK = false;
-        lista.add(vertex.getData()); // Podria ir adentro del if pero asi queda la ciudad2 en la lista 
-
-        if (!vertex.getData().equals(ciudad2)) {
-            for (Edge<String> edge: mapaCiudades.getEdges(vertex)) { 
-                if (!visitados[edge.getTarget().getPosition()] && !OK)
-                    OK = devolverCaminoHelper (edge.getTarget(), visitados, lista, ciudad2);
-            }
-
-            if (!OK) 
-                lista.remove(lista.size()-1);
-        }
-        else
-            OK = true;
-
-        return OK;
+    /*------------------------------------- 1 -------------------------------------*/
+    public List<String> devolverCamino (String ciudad1, String ciudad2) {
+    	List<String> camino = new LinkedList<>();
+    	
+    	if (!mapaCiudades.isEmpty()) {
+    		Vertex<String> origen = mapaCiudades.search(ciudad1);
+    		Vertex<String> destino = mapaCiudades.search(ciudad2);
+    		
+    		if (origen != null && destino != null)
+    			devolverCaminoHelper (origen, camino, ciudad2, new boolean[mapaCiudades.getSize()]);
+    	}
+    	
+    	return camino;
     }
     
+    private boolean devolverCaminoHelper (Vertex<String> vertex, List<String> camino, String ciudad2, boolean[] visitados) {
+    	visitados[vertex.getPosition()] = true;
+    	camino.add(vertex.getData());
+    	boolean paro = false;
+    	
+    	if (vertex.getData().equals(ciudad2)) 
+    		return true;
+    	else {
+    		for (Edge<String> edge: mapaCiudades.getEdges(vertex)) {
+    			if (!visitados[edge.getTarget().getPosition()] && !paro)
+    				paro = devolverCaminoHelper (edge.getTarget(), camino, ciudad2, visitados);
+    		}
+    		
+    		if (!paro)
+    			camino.remove(camino.size()-1);
+    		visitados[vertex.getPosition()] = false;
+    		return paro;
+    	}
+    }
     
-    /*-------------------------------------2-------------------------------------*/
+
+    /*------------------------------------- 2 -------------------------------------*/
     public List<String> devolverCaminoExceptuando(String ciudad1, String ciudad2, List<String> ciudades) {
-        List<String> lista = new ArrayList<>();
-
-        if (!this.mapaCiudades.isEmpty()) {
-            boolean[] visitados = new boolean[mapaCiudades.getSize()];  
-
-            Vertex<String> origen = this.mapaCiudades.search(ciudad1);
-            Vertex<String> destino = this.mapaCiudades.search(ciudad2);
-
-            if (origen != null && destino != null) 
-                devolverCaminoExceptuandoHelper (origen, visitados, lista, ciudades, ciudad2);
-        }
-
-        return lista;
+    	List<String> camino = new LinkedList<>();
+    	
+    	if (!mapaCiudades.isEmpty()) {
+    		Vertex<String> origen = mapaCiudades.search(ciudad1);
+    		Vertex<String> destino = mapaCiudades.search(ciudad2);
+    		
+    		if (origen != null && destino != null) {
+    			boolean[] visitados = new boolean [mapaCiudades.getSize()];
+    			
+    			for (String city: ciudades) {
+    				Vertex<String> v = mapaCiudades.search(city);
+    				
+    				if (v != null)
+    					visitados[v.getPosition()] = true;
+    			}
+    			
+    			devolverCaminoExceptuandoHelper (origen, camino, ciudad2, visitados);
+    		}
+    	}
+    	return camino;
     }
-
-    private boolean devolverCaminoExceptuandoHelper (Vertex<String> vertex, boolean[] visitados, List<String> lista, List<String> ciudades, String ciudad2) { 
-        visitados[vertex.getPosition()] = true;
-        boolean OK = false;
-        lista.add(vertex.getData()); // Podria ir adentro del if pero asi queda la ciudad2 en la lista 
-
-        int pos;
-        String ciudad;
-
-        if (!vertex.getData().equals(ciudad2)) {
-
-            for (Edge<String> edge: mapaCiudades.getEdges(vertex)) { 
-                pos = edge.getTarget().getPosition();
-                ciudad = edge.getTarget().getData();
-
-                if (ciudades.contains(ciudad))
-                    visitados[pos] = true;
-                // Se pone en true la ciudad para que no pueda entrar 
-                // Tambien se podria hacer en el otro metodo pero no es lo que mas conviene(explicado en clase)
-
-                if (!visitados[pos] && !OK) 
-                    OK = devolverCaminoExceptuandoHelper (edge.getTarget(), visitados, lista, ciudades, ciudad2);
-            }
-
-            if (!OK) {
-                lista.remove(lista.size()-1);
-                visitados[vertex.getPosition()] = false;
-            }
-        }
-        else
-            OK = true;
-
-        return OK;
+    
+    private boolean devolverCaminoExceptuandoHelper (Vertex<String> vertex, List<String> camino, String ciudad2, boolean[] visitados) {
+    	visitados[vertex.getPosition()] = true;
+    	camino.add(vertex.getData());
+    	boolean paro = false;
+    	
+    	if (vertex.getData().equals(ciudad2))
+    		return true;
+    	else {
+    		for (Edge<String> edge: mapaCiudades.getEdges(vertex)) {
+    			if (!visitados[edge.getTarget().getPosition()] && !paro)
+    				paro = devolverCaminoExceptuandoHelper(edge.getTarget(), camino, ciudad2, visitados);
+    		}
+    		
+    		if (!paro)
+    			camino.remove(camino.size()-1);
+    		visitados[vertex.getPosition()] = false;
+    		
+    		return paro;
+    	}
     }
     
     
-    /*-------------------------------------3-------------------------------------*/
-    public List<String> caminoMasCorto(String ciudad1, String ciudad2) {
-        List<String> camino = new ArrayList<>();
-
-        if (!this.mapaCiudades.isEmpty()) {
-            boolean[] visitados = new boolean[mapaCiudades.getSize()];  
-
-            Vertex<String> origen = this.mapaCiudades.search(ciudad1);
-            Vertex<String> destino = this.mapaCiudades.search(ciudad2);
-
-            if (origen != null && destino != null) 
-                caminoMasCortoHelper (origen, visitados, ciudad2, new ArrayList<String>(), camino, 0, Integer.MAX_VALUE);
-        }
-
-        return camino;
+    /*------------------------------------- 3 -------------------------------------*/
+    public List<String> caminoMasCorto (String ciudad1, String ciudad2) {
+    	List<String> camino = new LinkedList<>();
+    	
+    	if(!mapaCiudades.isEmpty()) {
+    		Vertex<String> origen = mapaCiudades.search(ciudad1);
+    		Vertex<String> destino = mapaCiudades.search(ciudad2);
+    		
+    		if (origen != null && destino != null)
+    			caminoMasCortoHelper (origen, camino, ciudad2, new boolean[mapaCiudades.getSize()], new LinkedList<String>(), 99999, 0);
+    	}
+    	
+    	return camino;
     }
-
-    private int caminoMasCortoHelper(Vertex<String> vertex, boolean[] visitados, String ciudad2, List<String> caminoAct, List<String> caminoMin, int total, int min) {
-        visitados[vertex.getPosition()] = true;
-        caminoAct.add(vertex.getData());
-
-        if (vertex.getData().equals(ciudad2) && total < min) { // se encontro un camino posible o un camino mas chico que el anterior
-            caminoMin.removeAll(caminoMin);
-            caminoMin.addAll(caminoAct);            
-            min = total;
-        }
-        else {
-            for (Edge<String> edge: mapaCiudades.getEdges(vertex)) { 
-                int pos = edge.getTarget().getPosition();
-                int aux = total + edge.getWeight();
-
-                if (!visitados[pos] && aux < min) 
-                    min = caminoMasCortoHelper(edge.getTarget(), visitados, ciudad2, caminoAct, caminoMin, aux, min);
-
-            }
-        }
-        caminoAct.remove(caminoAct.size()-1);
-        visitados[vertex.getPosition()] = false;
-        return min;
+    
+    private int caminoMasCortoHelper (Vertex<String> vertex, List<String> camino, String ciudad2, boolean[] visitados, List<String> caminoAct, int min, int cant) {
+    	visitados[vertex.getPosition()] = true;
+    	caminoAct.add(vertex.getData());
+    	
+    	if (vertex.getData().equals(ciudad2) && cant < min) {
+    			min = cant;
+    			camino.removeAll(camino);
+    			camino.addAll(caminoAct);
+    	}
+    	else {
+    		for (Edge<String> edge: mapaCiudades.getEdges(vertex)) {
+    			if (!visitados[edge.getTarget().getPosition()])
+    				min = caminoMasCortoHelper (edge.getTarget(), camino, ciudad2, visitados, caminoAct, min, cant+edge.getWeight());
+    		}
+    	}
+    		
+		visitados[vertex.getPosition()] = false;
+		caminoAct.remove(caminoAct.size()-1);
+    	return min;
     }
     
     
-    /*-------------------------------------4-------------------------------------*/
-    public List<String> caminoSinCargarCombustible(String ciudad1, String ciudad2, int tanqueAuto) {
-        List<String> camino = new ArrayList<>();
-
-        if (!this.mapaCiudades.isEmpty()) {
-            boolean[] visitados = new boolean[mapaCiudades.getSize()];  
-
-            Vertex<String> origen = this.mapaCiudades.search(ciudad1);
-            Vertex<String> destino = this.mapaCiudades.search(ciudad2);
-
-            if (origen != null && destino != null) 
-                caminoSinCargarCombustibleHelper (origen, visitados, ciudad2, camino, tanqueAuto);
-        }
-
-        return camino;
+    /*------------------------------------- 4 -------------------------------------*/
+    public List<String> caminoSinCargarCombustible (String ciudad1, String ciudad2, int tanqueAuto) {
+    	List<String> camino = new LinkedList<>();
+    	
+    	if (!mapaCiudades.isEmpty()) {
+    		Vertex<String> origen = mapaCiudades.search(ciudad1);
+    		Vertex<String> destino = mapaCiudades.search(ciudad2);
+    		
+    		if (origen != null && destino != null) 
+    			caminoSinCargarCombustibleHelper (origen, camino, ciudad2, new boolean[mapaCiudades.getSize()], tanqueAuto);
+    	}
+    	return camino;
     }
-
-    public boolean caminoSinCargarCombustibleHelper (Vertex<String> vertex, boolean[] visitados, String ciudad2, List<String> camino, int tanqueAuto) {
-        visitados[vertex.getPosition()] = true;
-        camino.add(vertex.getData());
-        boolean OK = false;
-
-        if (vertex.getData().equals(ciudad2))
-            return true;
-        else {
-            for (Edge<String> edge: mapaCiudades.getEdges(vertex)) { 
-                int pos = edge.getTarget().getPosition();
-                int combustibleNecesario = edge.getWeight();
-
-                // chequeo por !OK para que si un camino ya lo encontro no siga recorriendo el resto de adyacentes del vertice
-                if ((!visitados[pos]) && (!OK) && (tanqueAuto - combustibleNecesario >= 0))
-                    OK = caminoSinCargarCombustibleHelper(edge.getTarget(), visitados, ciudad2, camino, (tanqueAuto - combustibleNecesario));
-            }
-
-        }
-        
-        if (!OK)
-            camino.remove(camino.size()-1);
-
-        visitados[vertex.getPosition()] = false;
-        return OK;
+    
+    private boolean caminoSinCargarCombustibleHelper (Vertex<String> vertex, List<String> camino, String ciudad2, boolean[] visitados, int tanque) {
+    	visitados[vertex.getPosition()] = true;
+    	camino.add(vertex.getData());
+    	boolean paro = false;
+    	
+    	if (vertex.getData().equals(ciudad2))
+    		return true;
+    	else {
+    		for (Edge<String> edge: mapaCiudades.getEdges(vertex)) {
+    			int combustible = edge.getWeight();
+    			if (!visitados[edge.getTarget().getPosition()] && !paro && tanque-combustible >= 0)
+    				paro = caminoSinCargarCombustibleHelper (edge.getTarget(), camino, ciudad2, visitados, tanque-combustible);
+    		}
+    	}
+    	
+    	if (!paro)
+    		camino.remove(camino.size()-1);
+    	visitados[vertex.getPosition()] = false;
+    	return paro;
     }
     
     
-    /*-------------------------------------5-------------------------------------*/
-    public List<String> caminoConMenorCargaDeCombustible(String ciudad1, String ciudad2, int tanqueAuto) {
-        List<String> camino = new ArrayList<>();
-
-        if (!this.mapaCiudades.isEmpty()) {
-            boolean[] visitados = new boolean[mapaCiudades.getSize()];  
-
-            Vertex<String> origen = this.mapaCiudades.search(ciudad1);
-            Vertex<String> destino = this.mapaCiudades.search(ciudad2);
-
-            if (origen != null && destino != null) 
-                caminoConMenorCargaDeCombustibleHelper (origen, visitados, ciudad2, new ArrayList<String>(), camino, tanqueAuto, tanqueAuto, 0, Integer.MAX_VALUE);
-        }
-
-        return camino;
-    }
-
-    // variable tanque almacena la cantidad total de combustible que puede tener el auto
-    private int caminoConMenorCargaDeCombustibleHelper (Vertex<String> vertex, boolean[] visitados, String ciudad2, List<String> caminoAct, List<String> caminoMin, int tanqueActual, int tanque, int recargas, int recargasMin) {
-        visitados[vertex.getPosition()] = true;
-        caminoAct.add(vertex.getData());
-
-        if (vertex.getData().equals(ciudad2) && recargas < recargasMin) {
-            caminoMin.removeAll(caminoMin);
-            caminoMin.addAll(caminoAct);            
-            recargasMin = recargas;
-        }
-
-        else {
-            for (Edge<String> edge: mapaCiudades.getEdges(vertex)) { 
-                int pos = edge.getTarget().getPosition();
-                int combustibleNecesario = edge.getWeight();
-
-                if (!visitados[pos]) {
-                    // Si el combustible que se tiene en el auto alcanza (sin realizar una recarga en la ciudad) se visita la ciudad
-                    if (tanqueActual >= combustibleNecesario)
-                        recargasMin = caminoConMenorCargaDeCombustibleHelper(edge.getTarget(), visitados, ciudad2, caminoAct, caminoMin, (tanqueActual - combustibleNecesario), tanque, recargas, recargasMin);
-                    
-                    // Si el combustible que tiene el auto no alcanza, se chequea si con una recarga si. De ser posible se visita con recargas+1 
-                    else if (tanque >= combustibleNecesario)
-                        recargasMin = caminoConMenorCargaDeCombustibleHelper(edge.getTarget(), visitados, ciudad2, caminoAct, caminoMin, (tanque - combustibleNecesario), tanque, (recargas+1), recargasMin);
-                }
-            }
-        }
-        
-        caminoAct.remove(caminoAct.size()-1);
-        visitados[vertex.getPosition()] = false;
-        return recargasMin;
+    /*------------------------------------- 5 -------------------------------------*/
+    public List<String> caminoConMenorCargaDeCombustible (String ciudad1, String ciudad2, int tanqueAuto) {
+    	List<String> camino = new LinkedList<>();
+    	
+    	if (!mapaCiudades.isEmpty()) {
+    		Vertex<String> origen = mapaCiudades.search(ciudad1);
+    		Vertex<String> destino = mapaCiudades.search(ciudad2);
+    		
+    		if (origen != null && destino != null) 
+    			caminoConMenorCargaCombustibleHelper (origen, camino, new LinkedList<String>(), ciudad2, new boolean[mapaCiudades.getSize()], tanqueAuto, tanqueAuto, 0, 9999);
+    	}
+    	return camino;
     }
     
+    private int caminoConMenorCargaCombustibleHelper (Vertex<String> vertex, List<String> camino, List<String> caminoAct, String ciudad2, boolean[] visitados, int tanqueAuto, int tanqueAct, int recargas, int recargasMin) {
+    	visitados[vertex.getPosition()] = true;
+    	caminoAct.add(vertex.getData());
+    	
+    	if (vertex.getData().equals(ciudad2) && recargas < recargasMin) {
+    		recargasMin = recargas;
+    		camino.removeAll(camino);
+    		camino.addAll(caminoAct);
+    	}
+    	else {
+    		for (Edge<String> edge: mapaCiudades.getEdges(vertex)) {
+    			int combustible = edge.getWeight();
+    			
+    			if (!visitados[edge.getTarget().getPosition()] && tanqueAct - combustible >= 0)
+    				recargasMin = caminoConMenorCargaCombustibleHelper (edge.getTarget(), camino, caminoAct, ciudad2, visitados, tanqueAuto, tanqueAct-combustible, recargas, recargasMin);
+    			else if (!visitados[edge.getTarget().getPosition()] && tanqueAuto - combustible >= 0)
+    				recargasMin = caminoConMenorCargaCombustibleHelper (edge.getTarget(), camino, caminoAct, ciudad2, visitados, tanqueAuto, tanqueAuto, recargas+1, recargasMin);
+    		}
+    	}
+    	caminoAct.remove(caminoAct.size()-1);
+    	visitados[vertex.getPosition()] = false;
+    	return recargasMin;
+    }
     
+  
+    /*-----------------------------------------------------------------------------*/
     public static void main(String[] args) {
         Graph<String> mapaCiudades = new AdjListGraph<String>();
         Vertex<String> v1 = mapaCiudades.createVertex("La Plata"); //Casa Caperucita
@@ -290,9 +258,9 @@ public class Mapa {
         System.out.print(mapa.caminoSinCargarCombustible("La Plata", "San Vicente", 10));
         
         System.out.println("");
-        
+
         System.out.print("LISTA CAMINO CON MENOR CARGAS DE COMBUSTIBLE: ");
-        System.out.print(mapa.caminoConMenorCargaDeCombustible("La Plata", "San Vicente", 10));
+        System.out.print(mapa.caminoConMenorCargaDeCombustible("La Plata", "San Vicente", 4));
         
         System.out.println("");
     }
