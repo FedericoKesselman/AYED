@@ -2,7 +2,7 @@ package TP_Grafos.Parcial1;
 import TP_Grafos.*;
 import java.util.*;
 
-public class Parcial2 {
+public class Parcial2 { // TEMA1
 	
 	public int Parcial (Graph<lugar> sitios, int tiempo) {
 		List<lugar> camino = new LinkedList<>();

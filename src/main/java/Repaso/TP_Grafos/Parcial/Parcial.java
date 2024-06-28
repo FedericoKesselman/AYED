@@ -1,7 +1,7 @@
 package TP_Grafos;
 import java.util.*;
 
-public class Parcial {
+public class Parcial { // TEMA 2
 
 	public String resolver (Graph<lugar> sitios, int tiempo) {
 		boolean ok = false;
